@@ -34,7 +34,6 @@ class LMS:
         current_date = datetime.datetime.now().strftime("%Y-%m-%d - %H:%M:%S")
 
         if book_id in self.books_dict.keys():
-            ## 
             if not self.books_dict[book_id]['status'] == 'Available':
                 print(f"This book already issue to {self.books_dict[book_id]['lender_name']} on {self.books_dict[book_id]['issue_date']}")
             elif self.books_dict[book_id]['status'] == 'Available':
@@ -43,8 +42,19 @@ class LMS:
                 self.books_dict[book_id]['issue_date'] = current_date
                 self.books_dict[book_id]['status'] = "Already Issued"
                 print("Book issue successfully!!!")
-
         else:
             print("Book id not found in book list")
+    
+    def add_book(self):
+        new_book = input("Enter book title")
+        if new_book == "":
+            return self.add_book()
+        elif len(new_book) > 25:
+            print("Book title is to long. title length shoud be 20 chars.")
+        else:
+            with open(self.list_of_books, 'a') as bk:
+                bk.writelines(f"{new_book}\n")
+                self.books_dict.update({str(int(max(self.books_dict)+1)): {"book_title": new_book, "lender_name": "", "issue_date": "", "status": "Available"}})
+                print(f"this book {new_book} has been added successfully.")
 
 LMS("list_of_books.txt", "python").display_books()
