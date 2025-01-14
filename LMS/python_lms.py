@@ -46,7 +46,7 @@ class LMS:
             print("Book id not found in book list")
     
     def add_book(self):
-        new_book = input("Enter book title")
+        new_book = input("Enter book title:-")
         if new_book == "":
             return self.add_book()
         elif len(new_book) > 25:
@@ -54,7 +54,7 @@ class LMS:
         else:
             with open(self.list_of_books, 'a') as bk:
                 bk.writelines(f"{new_book}\n")
-                self.books_dict.update({str(int(max(self.books_dict)+1)): {"book_title": new_book, "lender_name": "", "issue_date": "", "status": "Available"}})
+                self.books_dict.update({str(int(max(self.books_dict))+1): {"book_title": new_book, "lender_name": "", "issue_date": "", "status": "Available"}})
                 print(f"this book {new_book} has been added successfully.")
 
     def return_books(self):
@@ -100,4 +100,4 @@ try:
         else:
             continue
 except Exception as e:
-    print("Something went wrong! Please try again.")
+    print("Something went wrong! Please try again.", e)
