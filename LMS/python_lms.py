@@ -57,4 +57,47 @@ class LMS:
                 self.books_dict.update({str(int(max(self.books_dict)+1)): {"book_title": new_book, "lender_name": "", "issue_date": "", "status": "Available"}})
                 print(f"this book {new_book} has been added successfully.")
 
-LMS("list_of_books.txt", "python").display_books()
+    def return_books(self):
+        book_id = input("Enter your Book ID:-")
+        if book_id in self.books_dict.keys():
+            if self.books_dict[book_id]["status"] == "Available":
+                print("This book already available in library. Please correct Book ID")
+            elif not self.books_dict[book_id]["status"] == "Available":
+                self.books_dict[book_id]['lender_name'] = ""
+                self.books_dict[book_id]['issue_date'] = ""
+                self.books_dict[book_id]['status'] = "Available"
+                print("Book return back successfully!!!")
+        else:
+            print("Book ID not found in book list")
+
+    
+    
+try:
+    myLMS = LMS("list_of_books.txt", "python")
+    press_key_list = {"D": "Display Books", "I":"Issue book", "A":"Add New Book", "R":"Return Books", "Q":"Quit"}
+
+    key_press = False
+    while not (key_press == "q"):
+        print(f"\n Welcome to {myLMS.library_name} library management system\n")
+        for key, value in press_key_list.items():
+            print(f"Press {key} To {value}")
+        key_press = input("Press key:- ").lower()
+
+        if key_press == 'i':
+            print("\n Current selection : Issue book")
+            myLMS.issue_books()
+        elif key_press == 'a':
+            print("\n Current selection : Add book")
+            myLMS.add_book()
+        elif key_press == 'd':
+            print("\n Current selection : Display book")
+            myLMS.display_books()
+        elif key_press == 'r':
+            print("\n Current selection : Return book")
+            myLMS.return_books()
+        elif key_press == 'q':
+            break
+        else:
+            continue
+except Exception as e:
+    print("Something went wrong! Please try again.")
